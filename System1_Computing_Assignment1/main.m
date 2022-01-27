@@ -82,7 +82,7 @@ for k = 1:Ns-1
     end 
     X(:,k+1) = X1;
     % The above method has been used since the value of the derivative was
-    % changing abruptly in the sampling interval and eventually the
+    % changing abruptly in the sampling interval and eventually 
     % previous method has to be updated
     
  end 
