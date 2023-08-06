@@ -1,0 +1,17 @@
+% This program implements LQOC controller on TCL system using state space
+% realization of an ARMAX 4th model identified from input-output data obtained on 
+% 1 April 2022 
+load Model_matrices.mat
+load PRBS_Data_1_April_2022.mat %Experimental data obtained 
+Ys = mean(Yk_data(230:250,:));
+
+%let's calculate the optimal gain matrix  for the system by solving the riccati
+%equation 
+Wx = [5,0,0,0;0,10,0,0;0,0,0,0;0,0,0,0];
+Wu = [1,0;0,1];
+[G_inf,S_inf,E_v] = dlqr(Modelfromdata.phy_m,Modelfromdata.gama_m,W_x,W_u);
+inv_mat = inv(eye(4,4) - Modelfromdata.phy_m);
+m = inv_mat\Modelfromdata.gama_m;
+Ku_mat = Modelfromdata.C_mat_m*m;
+n = inv_mat\Modelfromdata.L_mat_m;
+Ke_mat = Modelfromdata.C_mat_m*n + eye(2,2);
